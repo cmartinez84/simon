@@ -6,9 +6,6 @@ Game.prototype.play = function(){
     console.log(random);
     this.sequence.push(random);
 }
-// console.log(newGame);
-
-var scoreKeeper = 0;
 
 $(function(){
     var newGame = new Game();
@@ -21,16 +18,24 @@ $(function(){
     }
     $("#play").click(function(){
         play();
-        console.log("played");
         $("input#playerInput").keyup(function(){
-            var entryLength = $(this).val().length;
-            if($(this).val() !== sequence.substring(0, entryLength)){
+            var input = $(this).val();
+            $(this).val("");
+            playerInput.push(input);
+            console.log( "playerInput is" + playerInput.join(""));
+            var entryLength = playerInput.length;
+            if(playerInput.join("") !== sequence.substring(0, entryLength)){
                 alert("over!");
             }
-            else if($(this).val() === sequence){
+            else if(playerInput.join("") === sequence){
+                playerInput = [];
+                $("#playerInput").text(input);
                 play();
-                console.log("success");
             };
         })
-     })
+    });
+    // $("button").click(function(){
+    //     var value = $(this).val();
+    //     // output
+    // });
 });
