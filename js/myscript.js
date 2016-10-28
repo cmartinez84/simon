@@ -12,12 +12,25 @@ var scoreKeeper = 0;
 
 $(function(){
     var newGame = new Game();
+    var playerInput = [];
+    var sequence = "";
     var play = function(){
         newGame.play();
-        $("#sequence").text(newGame.sequence.join());
+        sequence = newGame.sequence.join("");
+        $("#sequence").text(sequence);
     }
     $("#play").click(function(){
         play();
-        alert("played");
-    })
+        console.log("played");
+        $("input#playerInput").keyup(function(){
+            var entryLength = $(this).val().length;
+            if($(this).val() !== sequence.substring(0, entryLength)){
+                alert("over!");
+            }
+            else if($(this).val() === sequence){
+                play();
+                console.log("success");
+            };
+        })
+     })
 });
