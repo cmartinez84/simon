@@ -15,25 +15,29 @@ $(function(){
         newGame.play();
         sequence = newGame.sequence.join("");
         $("#sequence").text(sequence);
+        playSequence(newGame.sequence)
+
     }
     $("#play").click(function(){
         play();
-            playSequence(example);
     });
-    var playSound = function(){
-        var sound = document.getElementById("audio1" );
-          sound.play();
-        };
-        var myVar = setTimeout(playSound, 200);
 
-    var playSequence = function(example){
-        example.forEach(function(number){
+
+    var playSequence = function(numbers){
+        numbers.forEach(function(number, index){
+            var sound;
             console.log(number);
-            var sound = document.getElementById("audio" + number);
+            sound = document.getElementById("audio" + number);
             var playSound = function(){
-                sound.play();
+                $("#"+number).addClass("lit");
+                    sound.play();
+                setTimeout(function(){
+                    $("#"+number).removeClass("lit");
+                    sound.load();
+                },300);
             }
-            var myVar = setTimeout(playSound,300 * number);
+            var myVar = setTimeout(playSound,1000 * index);
+
         });
     }
 

@@ -3,6 +3,9 @@ body{
   background-attachment: fixed;
   background-size: cover;
 }
+.lit{
+    background: green;
+}
 button{
   height: 50px;
   width: 50px;
