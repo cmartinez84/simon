@@ -18,24 +18,21 @@ $(function(){
     }
     $("#play").click(function(){
         play();
-        $("input#playerInput").keyup(function(){
-            var input = $(this).val();
-            $(this).val("");
-            playerInput.push(input);
-            console.log( "playerInput is" + playerInput.join(""));
-            var entryLength = playerInput.length;
-            if(playerInput.join("") !== sequence.substring(0, entryLength)){
-                alert("over!");
-            }
-            else if(playerInput.join("") === sequence){
-                playerInput = [];
-                $("#playerInput").text(input);
-                play();
-            };
-        })
     });
-    // $("button").click(function(){
-    //     var value = $(this).val();
-    //     // output
-    // });
+    $("button.tile").click(function(){
+        var sound = document.getElementById("audio" + $(this).html());
+          sound.play()
+        var input = $(this).html();
+        playerInput.push(input);
+        console.log( "playerInput is" + playerInput.join(""));
+        var entryLength = playerInput.length;
+        if(playerInput.join("") !== sequence.substring(0, entryLength)){
+            alert("over!");
+        }
+        else if(playerInput.join("") === sequence){
+            playerInput = [];
+            $("#playerInput").text(input);
+            play();
+        };
+    });
 });
