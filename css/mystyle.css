@@ -1,0 +1,28 @@
+body{
+  background: url("../img/bakground2.jpg") center center no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+button{
+  height: 50px;
+  width: 50px;
+  background: pink;
+  margin: 5px;
+  padding-bottom: 16.6% !important;
+  box-shadow: 5px 5px 3px red;
+  border-radius: 3px;
+}
+span:hover{
+  /*box-shadow: inset 3px 1px 15px 4px #fff;*/
+}
+
+.container{
+  text-align: center;
+  padding:50px;
+}
+.clicked{
+  border-top-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  transition: all 1s;
+  transform: translate(50px)
+}
