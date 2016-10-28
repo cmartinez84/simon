@@ -18,10 +18,30 @@ $(function(){
     }
     $("#play").click(function(){
         play();
+            playSequence(example);
     });
+    var playSound = function(){
+        var sound = document.getElementById("audio1" );
+          sound.play();
+        };
+        var myVar = setTimeout(playSound, 200);
+
+    var playSequence = function(example){
+        example.forEach(function(number){
+            console.log(number);
+            var sound = document.getElementById("audio" + number);
+            var playSound = function(){
+                sound.play();
+            }
+            var myVar = setTimeout(playSound,300 * number);
+        });
+    }
+
+
+
     $("button.tile").click(function(){
         var sound = document.getElementById("audio" + $(this).html());
-          sound.play()
+         sound.play();
         var input = $(this).html();
         playerInput.push(input);
         console.log( "playerInput is" + playerInput.join(""));
@@ -35,4 +55,5 @@ $(function(){
             play();
         };
     });
+
 });
