@@ -8,6 +8,24 @@ Game.prototype.play = function(){
 }
 
 $(function(){
+
+    var arrowToNumber;
+    $('body').on('keydown', function(e) {
+    //   if(e.key === "ArrowLeft"){
+    //       arrowToNumber = 1;
+    //   }
+    //   else if(e.key === "ArrowUp"){
+    //       arrowToNumber = 2;
+    //   }
+    //   else if(e.key === "ArrowRight"){
+    //       arrowToNumber = 3;
+    //   }
+    //   else if(e.key === "ArrowDown"){
+    //       arrowToNumber = 4;
+    //   }
+      playWithArrowKey(e.key);
+    });
+
     var newGame = new Game();
     var playerInput = [];
     var sequence = "";
@@ -36,8 +54,7 @@ $(function(){
                     sound.load();
                 },300);
             }
-            var myVar = setTimeout(playSound,1000 * index);
-
+            var myVar = setTimeout(playSound,200 * index);
         });
     }
 
@@ -56,8 +73,26 @@ $(function(){
         else if(playerInput.join("") === sequence){
             playerInput = [];
             $("#playerInput").text(input);
-            play();
+            setTimeout(play, 1000);
         };
     });
+
+    //this is a functino for keystrokes, keep the aforementinoed one for now until done
+    var playWithArrowKey = function(number){
+        var sound = document.getElementById("audio" + number);
+         sound.play();
+        var input = number;
+        playerInput.push(input);
+        console.log( "playerInput is" + playerInput.join(""));
+        var entryLength = playerInput.length;
+        if(playerInput.join("") !== sequence.substring(0, entryLength)){
+            alert("over!");
+        }
+        else if(playerInput.join("") === sequence){
+            playerInput = [];
+            $("#playerInput").text(input);
+            setTimeout(play, 1000);
+        };
+    }
 
 });
