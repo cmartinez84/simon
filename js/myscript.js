@@ -38,22 +38,27 @@ $(function(){
     $("#play").click(function(){
         play();
     });
-
-
+    //former "play sound" function, now used for player presses as well
+    var lightUp = function(number, sound){
+        $("#"+number).addClass("lit");
+            sound.play();
+        setTimeout(function(){
+            $("#"+number).removeClass("lit");
+            sound.load();
+        },300);
+    }
+    // will the new sequence
     var playSequence = function(numbers){
         numbers.forEach(function(number, index){
             var sound;
             console.log(number);
             sound = document.getElementById("audio" + number);
+            //setttime doesnt seem to want its call back function to take an argument.
+            //this looks really weird, but this prevents all lightups from runing at once!!! wtf?
             var playSound = function(){
-                $("#"+number).addClass("lit");
-                    sound.play();
-                setTimeout(function(){
-                    $("#"+number).removeClass("lit");
-                    sound.load();
-                },300);
+                lightUp(number, sound);
             }
-            var myVar = setTimeout(playSound,200 * index);
+            var myVar = setTimeout(playSound, 300 * index);
         });
     }
     //will  play out sounds and lights for simon's sequence
@@ -62,8 +67,9 @@ $(function(){
 
     $("button.tile").click(function(){
         var sound = document.getElementById("audio" + $(this).html());
-         sound.play();
+        // sound.play();
         var input = $(this).html();
+        lightUp(input, sound);
         playerInput.push(input);
         console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
@@ -94,5 +100,4 @@ $(function(){
             setTimeout(play, 1000);
         };
     }
-
 });
