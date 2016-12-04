@@ -1,23 +1,20 @@
 body{
-  background: url("../img/bakground2.jpg") center center no-repeat;
+  background: url("http://hdwallpaperbackgrounds.net/wp-content/uploads/2016/08/Black-Background.jpg") center center no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
-.lit{
-    background: green;
+.simon{
+    color: white;
+    font-family: 'Monoton', cursive;
+    font-size: 5em !important;
 }
-button{
-  height: 50px;
-  width: 50px;
-  background: pink;
+.tile{
   margin: 5px;
   padding-bottom: 16.6% !important;
-  box-shadow: 5px 5px 3px red;
+  /*box-shadow: 5px 5px 3px red;*/
   border-radius: 3px;
 }
-span:hover{
-  /*box-shadow: inset 3px 1px 15px 4px #fff;*/
-}
+
 
 .container{
   text-align: center;
@@ -28,4 +25,44 @@ span:hover{
   border-bottom-right-radius: 50%;
   transition: all 1s;
   transform: translate(50px)
+}
+.tile{
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+.tile1{
+    background: yellow;
+}
+.tile2{
+    background: red;
+}
+.tile3{
+    background: green;
+}
+.tile4{
+    background: blue;
+}
+
+.field{
+    margin-left: 400px;
+    background: black;
+    width: 500px;
+    padding: 40px !important;
+}
+.lit{
+    box-shadow:
+     inset 0 0 201px white,
+     0 0 47px white;
+}
+.info{
+    background: rgba(255, 0, 0, 0.5);
+    /*border: 1px  solid white;*/
+
+}
+.info *{
+    font-family: 'Libre Baskerville', serif;
+    color: white;
+    /*text-shadow: 0px 0px white;*/
+
 }

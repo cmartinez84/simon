@@ -8,7 +8,6 @@ Game.prototype.play = function(){
 }
 
 $(function(){
-
     var arrowToNumber;
     $('body').on('keydown', function(e) {
     //   if(e.key === "ArrowLeft"){
@@ -29,12 +28,12 @@ $(function(){
     var newGame = new Game();
     var playerInput = [];
     var sequence = "";
+    //to print to screen for testing
     var play = function(){
         newGame.play();
         sequence = newGame.sequence.join("");
         $("#sequence").text(sequence);
         playSequence(newGame.sequence)
-
     }
     $("#play").click(function(){
         play();
@@ -57,6 +56,7 @@ $(function(){
             var myVar = setTimeout(playSound,200 * index);
         });
     }
+    //will  play out sounds and lights for simon's sequence
 
 
 

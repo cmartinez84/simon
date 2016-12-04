@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+      <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Monoton" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css">
     <link rel="stylesheet" href="css/mystyle.css" type="text/css">
@@ -15,17 +16,28 @@
     <audio id="audio4" src="sounds/beep-08b.wav" autostart="false" ></audio>
 
   <body>
-      <div id="sequence">
-          <h1>Sequence</h1>
+      <h1 class="simon">Simon</h1>
+      <div class="info">
+          <div id="sequence">
+              <h1>Sequence</h1>
+          </div>
+          <div id="playerInput">
+              <h1>PlayerInput</h1>
+          </div>
       </div>
-     <div id="playerInput">
-         <h1>PlayerInput</h1>
-     </div>
+
+
       <button id="play" type="button" name="button">PLAY</button>
       <input id="playerInput" type="text" name="name" value="">
-      <button id="1"class="tile" type="button" name="button">1</button>
-      <button id="2" class="tile" type="button" name="button">2</button>
-      <button id="3" class="tile" type="button" name="button">3</button>
-      <button id="4" class="tile" type="button" name="button">4</button>
+      <div class="field">
+          <div class="row">
+              <button id="1"class="tile tile1" type="button" name="button">1</button>
+              <button id="2" class="tile tile2" type="button" name="button">2</button>
+          </div>
+          <div class="row">
+              <button id="3" class="tile tile3" type="button" name="button">3</button>
+              <button id="4" class="tile tile4" type="button" name="button">4</button>
+          </div>
+      </div>
   </body>
 </html>
