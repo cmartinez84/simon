@@ -8,7 +8,6 @@ Game.prototype.play = function(){
 }
 
 $(function(){
-    var arrowToNumber;
     $('body').on('keydown', function(e) {
     //   if(e.key === "ArrowLeft"){
     //       arrowToNumber = 1;
@@ -40,6 +39,7 @@ $(function(){
     });
     //former "play sound" function, now used for player presses as well
     var lightUp = function(number, sound){
+        sound.load();
         $("#"+number).addClass("lit");
             sound.play();
         setTimeout(function(){
@@ -58,7 +58,7 @@ $(function(){
             var playSound = function(){
                 lightUp(number, sound);
             }
-            var myVar = setTimeout(playSound, 300 * index);
+            var myVar = setTimeout(playSound, 350 * index);
         });
     }
     //will  play out sounds and lights for simon's sequence
@@ -67,13 +67,14 @@ $(function(){
 
     $("button.tile").click(function(){
         var sound = document.getElementById("audio" + $(this).html());
-        // sound.play();
         var input = $(this).html();
         lightUp(input, sound);
         playerInput.push(input);
         console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
+            var sound = document.getElementById("gameOver");
+            sound.play();
             alert("over!");
         }
         else if(playerInput.join("") === sequence){
@@ -91,6 +92,8 @@ $(function(){
         console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
+            var sound = document.getElementById("gameOver");
+            sound.play();
             alert("over!");
         }
         else if(playerInput.join("") === sequence){
