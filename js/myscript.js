@@ -86,9 +86,8 @@ $(function(){
     //this is a functino for keystrokes, keep the aforementinoed one for now until done
     var playWithArrowKey = function(number){
         var sound = document.getElementById("audio" + number);
-         sound.play();
-        var input = number;
-        playerInput.push(input);
+        lightUp(number, sound);
+        playerInput.push(number);
         console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
@@ -96,7 +95,7 @@ $(function(){
         }
         else if(playerInput.join("") === sequence){
             playerInput = [];
-            $("#playerInput").text(input);
+            $("#playerInput").text(number);
             setTimeout(play, 1000);
         };
     }
