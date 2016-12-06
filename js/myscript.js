@@ -12,9 +12,25 @@ var HighScore = function(playerName, highScore){
 }
 
 $(function(){
+
+    var scoresRef = firebase.database().ref("scores");
+    scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
+        snap.forEach(function(thing){
+            $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
+            // console.log(thing.val().highScore);
+        });
+        });
+        // snap.val().forEach(function(entry){
+        //     $("#highScores").append(entry.playerName);
+        //     // console.log(snap.val());
+        // });
+    // });
+
+
+
     var highScores = firebase.database().ref('scores');
-    var playerName = firebase.database().ref('players');
-    console.log("hello");
+    // var playerName = firebase.database().ref('players');
+
     $('body').on('keydown', function(e) {
     var arrowToNumber = e.key;
       if(e.which === 68){
@@ -36,24 +52,30 @@ $(function(){
     var newGame = new Game();
     var playerInput = [];
     var sequence = "";
-    var seconds = 0;
+    //master clock. clock is defined outside of function so i can start it when play is hit
     var clock;
+    var seconds = 0;
+
+
+
 
     // to print to screen for testing
+    // play/ move
     var play = function(){
         newGame.play();
-        clock = setInterval(function(){
-            seconds += 1;
-            console.log(seconds);
-        }, 1000);
         sequence = newGame.sequence.join("");
         $("#sequence").text(sequence);
         playSequence(newGame.sequence);
     }
-
+//start game
     $("#play").click(function(){
         play();
+        assignClicks();
         $(this).hide();
+        clock = setInterval(function(){
+            seconds += 1;
+            console.log(seconds);
+        }, 1000);
     });
 
     var gameOver = function(){
@@ -61,7 +83,7 @@ $(function(){
         sound.play();
         $('.tile').off();
         var score = newGame.sequence.length;
-        var playerName = prompt("Bummer! looks like your score is "+score+" Please enter your name");
+        var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
         var highScore  = new HighScore(playerName, score);
         highScores.push(highScore). then(function(){
             console.log("pushed");
@@ -94,7 +116,7 @@ $(function(){
         });
     }
     //will  play out sounds and lights for simon's sequence
-
+var assignClicks = function(){
     $("button.tile").click(function(){
         var sound = document.getElementById("audio" + $(this).html());
         var input = $(this).html();
@@ -112,6 +134,8 @@ $(function(){
             setTimeout(play, 1000);
         };
     });
+}
+
 
     //this is a functino for keystrokes, keep the aforementinoed one for now until done
     var playWithArrowKey = function(number){
