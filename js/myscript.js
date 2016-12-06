@@ -17,14 +17,8 @@ $(function(){
     scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
         snap.forEach(function(thing){
             $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
-            // console.log(thing.val().highScore);
         });
-        });
-        // snap.val().forEach(function(entry){
-        //     $("#highScores").append(entry.playerName);
-        //     // console.log(snap.val());
-        // });
-    // });
+    });
 
 
 
@@ -56,9 +50,6 @@ $(function(){
     var clock;
     var seconds = 0;
 
-
-
-
     // to print to screen for testing
     // play/ move
     var play = function(){
@@ -79,17 +70,26 @@ $(function(){
     });
 
     var gameOver = function(){
+        $('.tile').off();
         var sound = document.getElementById("gameOver");
         sound.play();
-        $('.tile').off();
         var score = newGame.sequence.length;
         var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
         var highScore  = new HighScore(playerName, score);
         highScores.push(highScore). then(function(){
-            console.log("pushed");
+            sequence = "";
         });
         clearInterval(clock);
         $("#play").show();
+
+        newGame = new Game();
+        playerInput = [];
+        sequence = "";
+        //master clock. clock is defined outside of function so i can start it when play is hit
+        var seconds = 0;
+
+
+
     }
     //former "play sound" function, now used for player presses as well
     var lightUp = function(number, sound){
