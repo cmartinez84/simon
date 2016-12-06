@@ -12,18 +12,32 @@ var HighScore = function(playerName, highScore){
 }
 
 $(function(){
-
-    var scoresRef = firebase.database().ref("scores");
-    scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
-        snap.forEach(function(thing){
-            $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
+    var redrawHighScores = function(){
+        var scoresRef = firebase.database().ref("scores");
+        scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
+            $("#highScores").empty();
+            snap.forEach(function(thing){
+                $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
+            });
         });
-    });
-
-
+    }
+    redrawHighScores();
 
     var highScores = firebase.database().ref('scores');
     // var playerName = firebase.database().ref('players');
+    var timer;
+    var countdown = function(){
+        var seconds = 0;
+        timer = setInterval(function(){
+            seconds ++;
+            if(seconds  === 10){
+                gameOver();
+                clearInterval(timer);
+            }
+            console.log(seconds);
+        }, 1000)
+        console.log("hi");
+    }
 
     $('body').on('keydown', function(e) {
     var arrowToNumber = e.key;
@@ -53,7 +67,9 @@ $(function(){
     // to print to screen for testing
     // play/ move
     var play = function(){
+        //METHOD play on object, not same
         newGame.play();
+        clearInterval(timer);
         sequence = newGame.sequence.join("");
         $("#sequence").text(sequence);
         playSequence(newGame.sequence);
@@ -77,7 +93,7 @@ $(function(){
         var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
         var highScore  = new HighScore(playerName, score);
         highScores.push(highScore). then(function(){
-            sequence = "";
+            redrawHighScores();
         });
         clearInterval(clock);
         $("#play").show();
@@ -103,6 +119,9 @@ $(function(){
     }
     // plays computer sequence
     var playSequence = function(numbers){
+        setTimeout(function(){
+            countdown();
+        }, numbers.length * 400);
         numbers.forEach(function(number, index){
             var sound;
             console.log(number);
