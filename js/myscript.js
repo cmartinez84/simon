@@ -6,37 +6,67 @@ Game.prototype.play = function(){
     console.log(random);
     this.sequence.push(random);
 }
+var HighScore = function(playerName, highScore){
+    this.playerName = playerName;
+    this.highScore = highScore;
+}
 
 $(function(){
+    var highScores = firebase.database().ref('scores');
+    var playerName = firebase.database().ref('players');
+
+    // highScores.push("afaf"). then(function(){
+    //     console.log("hello");
+    // });
     $('body').on('keydown', function(e) {
-    //   if(e.key === "ArrowLeft"){
-    //       arrowToNumber = 1;
-    //   }
-    //   else if(e.key === "ArrowUp"){
-    //       arrowToNumber = 2;
-    //   }
-    //   else if(e.key === "ArrowRight"){
-    //       arrowToNumber = 3;
-    //   }
-    //   else if(e.key === "ArrowDown"){
-    //       arrowToNumber = 4;
-    //   }
-      playWithArrowKey(e.key);
+    var arrowToNumber = e.key;
+      if(e.which === 68){
+          arrowToNumber = 1;
+      }
+      else if(e.which === 75){
+          arrowToNumber =2 ;
+      }
+      else if(e.which === 67){
+          arrowToNumber = 3;
+      }
+      else if(e.which === 77){
+          arrowToNumber = 4;
+      }
+    //   playWithArrowKey(e.key);
+      playWithArrowKey(arrowToNumber);
     });
 
     var newGame = new Game();
     var playerInput = [];
     var sequence = "";
-    //to print to screen for testing
+    var seconds = 0;
+    var clock;
+
+    // to print to screen for testing
     var play = function(){
         newGame.play();
+        clock = setInterval(function(){
+            seconds += 1;
+            console.log(seconds);
+        }, 1000);
         sequence = newGame.sequence.join("");
         $("#sequence").text(sequence);
-        playSequence(newGame.sequence)
+        playSequence(newGame.sequence);
     }
     $("#play").click(function(){
         play();
     });
+    var gameOver = function(){
+        var sound = document.getElementById("gameOver");
+        sound.play();
+        var score = newGame.sequence.length;
+        var playerName = prompt("Bummer! looks like your score is "+score+" Please enter your name");
+        var highScore  = new HighScore(playerName, score);
+        highScores.push(highScore). then(function(){
+            console.log("pushed");
+        });
+        clearInterval(clock);
+    }
     //former "play sound" function, now used for player presses as well
     var lightUp = function(number, sound){
         sound.load();
@@ -73,10 +103,9 @@ $(function(){
         console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
-            var sound = document.getElementById("gameOver");
-            sound.play();
-            alert("over!");
+            gameOver();
         }
+
         else if(playerInput.join("") === sequence){
             playerInput = [];
             $("#playerInput").text(input);
@@ -92,9 +121,7 @@ $(function(){
         console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
-            var sound = document.getElementById("gameOver");
-            sound.play();
-            alert("over!");
+            gameOver();
         }
         else if(playerInput.join("") === sequence){
             playerInput = [];
