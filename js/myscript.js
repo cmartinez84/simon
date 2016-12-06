@@ -14,10 +14,7 @@ var HighScore = function(playerName, highScore){
 $(function(){
     var highScores = firebase.database().ref('scores');
     var playerName = firebase.database().ref('players');
-
-    // highScores.push("afaf"). then(function(){
-    //     console.log("hello");
-    // });
+    console.log("hello");
     $('body').on('keydown', function(e) {
     var arrowToNumber = e.key;
       if(e.which === 68){
@@ -53,12 +50,16 @@ $(function(){
         $("#sequence").text(sequence);
         playSequence(newGame.sequence);
     }
+
     $("#play").click(function(){
         play();
+        $(this).hide();
     });
+
     var gameOver = function(){
         var sound = document.getElementById("gameOver");
         sound.play();
+        $('.tile').off();
         var score = newGame.sequence.length;
         var playerName = prompt("Bummer! looks like your score is "+score+" Please enter your name");
         var highScore  = new HighScore(playerName, score);
@@ -66,6 +67,7 @@ $(function(){
             console.log("pushed");
         });
         clearInterval(clock);
+        $("#play").show();
     }
     //former "play sound" function, now used for player presses as well
     var lightUp = function(number, sound){
@@ -77,7 +79,7 @@ $(function(){
             sound.load();
         },300);
     }
-    // will the new sequence
+    // plays computer sequence
     var playSequence = function(numbers){
         numbers.forEach(function(number, index){
             var sound;
@@ -92,8 +94,6 @@ $(function(){
         });
     }
     //will  play out sounds and lights for simon's sequence
-
-
 
     $("button.tile").click(function(){
         var sound = document.getElementById("audio" + $(this).html());
