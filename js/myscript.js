@@ -1,10 +1,12 @@
 var Game  = function(){
     this.sequence = [];
+    this.scoreToBeat;
 }
 Game.prototype.play = function(){
     var random = Math.floor((Math.random()*4)+1);
     // console.log(random);
     this.sequence.push(random);
+
 }
 var HighScore = function(playerName, highScore){
     this.playerName = playerName;
@@ -18,8 +20,14 @@ $(function(){
         // var scoresRef = firebase.database().ref("scores");
         scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
             $("#highScores").empty();
+            //write score to beat to game object
+            var lowestKey = Object.keys(snap.val())[4];
+            var scoreToBeat = snap.val()[lowestKey].highScore;
+            newGame.scoreToBeat = scoreToBeat;
+            console.log(newGame.scoreToBeat);
             snap.forEach(function(thing){
                 $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
+
             });
         });
     }
@@ -93,12 +101,10 @@ $(function(){
         $('.tile').off();
         var sound = document.getElementById("gameOver");
         sound.play();
-        var score = newGame.sequence.length;
-        var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
-        var highScore  = new HighScore(playerName, score);
-        scoresRef.push(highScore).then(function(){
-            redrawHighScores();
-        });
+        var score = newGame.sequence.length - 1;
+        if (score >= newGame.scoreToBeat){
+            addNewHighScore(score);
+        }
         clearInterval(clock);
         clearInterval(timer);
         $("#play").show();
@@ -108,6 +114,17 @@ $(function(){
         //master clock. clock is defined outside of function so i can start it when play is hit
         var seconds = 0;
     }
+
+
+    var addNewHighScore = function(score){
+        var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
+        var highScore  = new HighScore(playerName, score);
+        scoresRef.push(highScore).then(function(){
+            redrawHighScores();
+        });
+    }
+
+
     //former "play sound" function, now used for player presses as well
     var lightUp = function(number, sound){
         sound.load();
