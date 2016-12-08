@@ -21,13 +21,12 @@ $(function(){
         scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
             $("#highScores").empty();
             //write score to beat to game object
-            var lowestKey = Object.keys(snap.val())[4];
+            var lowestKey = Object.keys(snap.val())[0];
             var scoreToBeat = snap.val()[lowestKey].highScore;
             newGame.scoreToBeat = scoreToBeat;
             console.log(newGame.scoreToBeat);
             snap.forEach(function(thing){
                 $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
-
             });
         });
     }
@@ -102,9 +101,13 @@ $(function(){
         var sound = document.getElementById("gameOver");
         sound.play();
         var score = newGame.sequence.length - 1;
-        if (score >= newGame.scoreToBeat){
-            addNewHighScore(score);
-        }
+        // if (score >= newGame.scoreToBeat){
+            var addNewHighScore2 = function(){
+                console.log("run");
+                addNewHighScore(score);
+            };
+            setTimeout(addNewHighScore2, 400);
+        // }
         clearInterval(clock);
         clearInterval(timer);
         $("#play").show();
@@ -117,6 +120,7 @@ $(function(){
 
 
     var addNewHighScore = function(score){
+
         var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
         var highScore  = new HighScore(playerName, score);
         scoresRef.push(highScore).then(function(){
@@ -172,7 +176,6 @@ var assignClicks = function(){
         };
     });
 }
-
 
     //this is a functino for keystrokes, keep the aforementinoed one for now until done
     var playWithArrowKey = function(number){
