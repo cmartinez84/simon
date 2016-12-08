@@ -24,15 +24,18 @@ $(function(){
     redrawHighScores();
 
     var highScores = firebase.database().ref('scores');
-    // var playerName = firebase.database().ref('players');
     var timer;
     var countdown = function(){
+        var countDownAlert = document.getElementById("countDownAlert");
         var seconds = 0;
         timer = setInterval(function(){
             seconds ++;
             if(seconds  === 10){
                 gameOver();
                 clearInterval(timer);
+            }
+            if(seconds > 5){
+                countDownAlert.play();
             }
             console.log(seconds);
         }, 1000)
