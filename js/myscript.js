@@ -3,7 +3,7 @@ var Game  = function(){
 }
 Game.prototype.play = function(){
     var random = Math.floor((Math.random()*4)+1);
-    console.log(random);
+    // console.log(random);
     this.sequence.push(random);
 }
 var HighScore = function(playerName, highScore){
@@ -36,7 +36,6 @@ $(function(){
             }
             console.log(seconds);
         }, 1000)
-        console.log("hi");
     }
 
     $('body').on('keydown', function(e) {
@@ -64,8 +63,7 @@ $(function(){
     var clock;
     var seconds = 0;
 
-    // to print to screen for testing
-    // play/ move
+    // PLAYER's move, runs each time a square is pressed
     var play = function(){
         //METHOD play on object, not same
         newGame.play();
@@ -73,6 +71,7 @@ $(function(){
         sequence = newGame.sequence.join("");
         $("#sequence").text(sequence);
         playSequence(newGame.sequence);
+
     }
 //start game
     $("#play").click(function(){
@@ -81,7 +80,7 @@ $(function(){
         $(this).hide();
         clock = setInterval(function(){
             seconds += 1;
-            console.log(seconds);
+            // console.log(seconds);
         }, 1000);
     });
 
@@ -96,6 +95,7 @@ $(function(){
             redrawHighScores();
         });
         clearInterval(clock);
+        clearInterval(timer);
         $("#play").show();
 
         newGame = new Game();
@@ -103,9 +103,6 @@ $(function(){
         sequence = "";
         //master clock. clock is defined outside of function so i can start it when play is hit
         var seconds = 0;
-
-
-
     }
     //former "play sound" function, now used for player presses as well
     var lightUp = function(number, sound){
@@ -124,7 +121,7 @@ $(function(){
         }, numbers.length * 400);
         numbers.forEach(function(number, index){
             var sound;
-            console.log(number);
+            // console.log(number);
             sound = document.getElementById("audio" + number);
             //setttime doesnt seem to want its call back function to take an argument.
             //this looks really weird, but this prevents all lightups from runing at once!!! wtf?
@@ -141,7 +138,7 @@ var assignClicks = function(){
         var input = $(this).html();
         lightUp(input, sound);
         playerInput.push(input);
-        console.log( "playerInput is" + playerInput.join(""));
+        // console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
             gameOver();
@@ -161,7 +158,7 @@ var assignClicks = function(){
         var sound = document.getElementById("audio" + number);
         lightUp(number, sound);
         playerInput.push(number);
-        console.log( "playerInput is" + playerInput.join(""));
+        // console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
             gameOver();
