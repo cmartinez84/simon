@@ -12,8 +12,10 @@ var HighScore = function(playerName, highScore){
 }
 
 $(function(){
+    var scoresRef = firebase.database().ref('scores');
+
     var redrawHighScores = function(){
-        var scoresRef = firebase.database().ref("scores");
+        // var scoresRef = firebase.database().ref("scores");
         scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
             $("#highScores").empty();
             snap.forEach(function(thing){
@@ -23,7 +25,7 @@ $(function(){
     }
     redrawHighScores();
 
-    var highScores = firebase.database().ref('scores');
+    // var highScores = firebase.database().ref('scores');
     var timer;
     var countdown = function(){
         var countDownAlert = document.getElementById("countDownAlert");
@@ -94,13 +96,12 @@ $(function(){
         var score = newGame.sequence.length;
         var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
         var highScore  = new HighScore(playerName, score);
-        highScores.push(highScore). then(function(){
+        scoresRef.push(highScore).then(function(){
             redrawHighScores();
         });
         clearInterval(clock);
         clearInterval(timer);
         $("#play").show();
-
         newGame = new Game();
         playerInput = [];
         sequence = "";
