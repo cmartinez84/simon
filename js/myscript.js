@@ -15,19 +15,19 @@ var HighScore = function(playerName, highScore){
 
 $(function(){
     var scoresRef = firebase.database().ref('scores');
-
     var redrawHighScores = function(){
-        // var scoresRef = firebase.database().ref("scores");
         scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
             $("#highScores").empty();
-            //write score to beat to game object
-            var lowestKey = Object.keys(snap.val())[0];
-            var scoreToBeat = snap.val()[lowestKey].highScore;
-            newGame.scoreToBeat = scoreToBeat;
-            console.log(newGame.scoreToBeat);
+            // write score to beat to game object
+            // var lowestKey = Object.keys(snap.val())[3];
+            // var scoreToBeat = snap.val()[lowestKey];
+            // newGame.scoreToBeat = scoreToBeat;
+            // console.log(lowestKey);
             snap.forEach(function(thing){
-                $("#highScores").prepend("<li>"+ thing.val().highScore +"  "+ thing.val().playerName +"</li>");
+                $("#highScores").prepend("<li><span>"+ thing.val().highScore +"</span>  "+ thing.val().playerName +"</li>");
             });
+            var lowestHighScore = $("#highScores li:last-child span").html();
+            console.log(lowestHighScore);
         });
     }
     redrawHighScores();
@@ -106,12 +106,12 @@ $(function(){
                 console.log("run");
                 addNewHighScore(score);
             };
-            setTimeout(addNewHighScore2, 400);
+            setTimeout(addNewHighScore2, 600);
         // }
         clearInterval(clock);
         clearInterval(timer);
         $("#play").show();
-        newGame = new Game();
+        newGame.sequence = [];
         playerInput = [];
         sequence = "";
         //master clock. clock is defined outside of function so i can start it when play is hit
@@ -120,7 +120,6 @@ $(function(){
 
 
     var addNewHighScore = function(score){
-
         var playerName = prompt("Congrats! You memorized "+ score +"places. Please enter your name");
         var highScore  = new HighScore(playerName, score);
         scoresRef.push(highScore).then(function(){
@@ -177,7 +176,7 @@ var assignClicks = function(){
     });
 }
 
-    //this is a functino for keystrokes, keep the aforementinoed one for now until done
+    //this is a function for keystrokes, keep the aforementinoed one for now until done
     var playWithArrowKey = function(number){
         var sound = document.getElementById("audio" + number);
         lightUp(number, sound);
