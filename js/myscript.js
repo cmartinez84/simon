@@ -96,7 +96,7 @@ $(function(){
     }
 //start game
     $("#play").click(function(){
-        $(this).hide();
+        $("#options").hide();
         assignClicks();
         clock = setInterval(function(){
             seconds += 1;
@@ -120,7 +120,7 @@ $(function(){
         // }
         clearInterval(clock);
         clearInterval(timer);
-        $("#play").show();
+        $("#options").show();
         newGame.sequence = [];
         playerInput = [];
         sequence = "";
