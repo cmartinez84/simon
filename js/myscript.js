@@ -1,6 +1,8 @@
 var Game  = function(){
     this.sequence = [];
     this.scoreToBeat;
+    this.enableCountdown;
+    this.enableCountdownAlert;
 }
 Game.prototype.play = function(){
     var random = Math.floor((Math.random()*4)+1);
@@ -31,11 +33,18 @@ $(function(){
         });
     }
     redrawHighScores();
-
+    $("#enableCountdownAlert").click(function(){
+        $("#enableCountdown").prop('checked', true);
+    });
+    $("#enableCountdown").click(function(){
+        if($(this).prop('checked') === false){
+            $("#enableCountdownAlert").prop('checked', false);
+        }
+    })
     // var highScores = firebase.database().ref('scores');
     var timer;
     var countdown = function(){
-        var countDownAlert = document.getElementById("countDownAlert");
+        var countdownAlert = document.getElementById("countdownAlert");
         var seconds = 0;
         timer = setInterval(function(){
             seconds ++;
@@ -43,8 +52,8 @@ $(function(){
                 gameOver();
                 clearInterval(timer);
             }
-            if(seconds > 5){
-                countDownAlert.play();
+            if(seconds > 5 && newGame.enableCountdownAlert === true){
+                countdownAlert.play();
             }
             console.log(seconds);
         }, 1000)
@@ -87,13 +96,14 @@ $(function(){
     }
 //start game
     $("#play").click(function(){
-        play();
-        assignClicks();
         $(this).hide();
+        assignClicks();
         clock = setInterval(function(){
             seconds += 1;
-            // console.log(seconds);
         }, 1000);
+        newGame.enableCountdown =  $("#enableCountdown").prop("checked");
+        newGame.enableCountdownAlert = $("#enableCountdownAlert").prop("checked");
+        play();
     });
 
     var gameOver = function(){
@@ -140,9 +150,11 @@ $(function(){
     }
     // plays computer sequence
     var playSequence = function(numbers){
-        setTimeout(function(){
-            countdown();
-        }, numbers.length * 400);
+        if(newGame.enableCountdown === true){
+            setTimeout(function(){
+                countdown();
+            }, numbers.length * 400);
+        }
         numbers.forEach(function(number, index){
             var sound;
             // console.log(number);

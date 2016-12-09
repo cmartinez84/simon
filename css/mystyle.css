@@ -69,3 +69,8 @@ body{
 #scoreBox{
     color: white;
 }
+#options{
+    color: white;
+    border: 1px solid white;
+    border-radius: 4px;
+}
