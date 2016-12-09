@@ -3,6 +3,7 @@ var Game  = function(){
     this.scoreToBeat;
     this.enableCountdown;
     this.enableCountdownAlert;
+    this.gameOver = true;
 }
 Game.prototype.play = function(){
     var random = Math.floor((Math.random()*4)+1);
@@ -28,8 +29,9 @@ $(function(){
             snap.forEach(function(thing){
                 $("#highScores").prepend("<li><span>"+ thing.val().highScore +"</span>  "+ thing.val().playerName +"</li>");
             });
-            var lowestHighScore = $("#highScores li:last-child span").html();
-            console.log(lowestHighScore);
+            newGame.scoreToBeat = $("#highScores li:last-child span").html();
+
+            console.log(newGame.scoreToBeat);
         });
     }
     redrawHighScores();
@@ -73,8 +75,8 @@ $(function(){
       else if(e.which === 77){
           arrowToNumber = 4;
       }
-    //   playWithArrowKey(e.key);
-      playWithArrowKey(arrowToNumber);
+    //   playWithKeyboard(e.key);
+      playWithKeyboard(arrowToNumber);
     });
 
     var newGame = new Game();
@@ -88,9 +90,10 @@ $(function(){
     var play = function(){
         //METHOD play on object, not same
         newGame.play();
+        newGame.gameOver = false;
         clearInterval(timer);
         sequence = newGame.sequence.join("");
-        $("#sequence").text(sequence);
+        // $("#sequence").text(sequence);
         playSequence(newGame.sequence);
 
     }
@@ -107,17 +110,18 @@ $(function(){
     });
 
     var gameOver = function(){
+        newGame.gameOver = true;
         $('.tile').off();
         var sound = document.getElementById("gameOver");
         sound.play();
         var score = newGame.sequence.length - 1;
-        // if (score >= newGame.scoreToBeat){
+        if (score >= newGame.scoreToBeat && newGame.enableCountdown === true){
             var addNewHighScore2 = function(){
                 console.log("run");
                 addNewHighScore(score);
             };
             setTimeout(addNewHighScore2, 600);
-        // }
+        }
         clearInterval(clock);
         clearInterval(timer);
         $("#options").show();
@@ -156,15 +160,10 @@ $(function(){
             }, numbers.length * 400);
         }
         numbers.forEach(function(number, index){
-            var sound;
-            // console.log(number);
-            sound = document.getElementById("audio" + number);
-            //setttime doesnt seem to want its call back function to take an argument.
-            //this looks really weird, but this prevents all lightups from runing at once!!! wtf?
-            var playSound = function(){
+            var sound = document.getElementById("audio" + number);
+            setTimeout(function(){
                 lightUp(number, sound);
-            }
-            var myVar = setTimeout(playSound, 350 * index);
+            }, 350 * index);
         });
     }
     //will  play out sounds and lights for simon's sequence
@@ -174,12 +173,10 @@ var assignClicks = function(){
         var input = $(this).html();
         lightUp(input, sound);
         playerInput.push(input);
-        // console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
             gameOver();
         }
-
         else if(playerInput.join("") === sequence){
             playerInput = [];
             $("#playerInput").text(input);
@@ -189,11 +186,12 @@ var assignClicks = function(){
 }
 
     //this is a function for keystrokes, keep the aforementinoed one for now until done
-    var playWithArrowKey = function(number){
+    var playWithKeyboard = function(number){
+        if(newGame.gameOver  === false){
+
         var sound = document.getElementById("audio" + number);
         lightUp(number, sound);
         playerInput.push(number);
-        // console.log( "playerInput is" + playerInput.join(""));
         var entryLength = playerInput.length;
         if(playerInput.join("") !== sequence.substring(0, entryLength)){
             gameOver();
@@ -202,6 +200,7 @@ var assignClicks = function(){
             playerInput = [];
             $("#playerInput").text(number);
             setTimeout(play, 1000);
-        };
+            };
+        }
     }
 });
