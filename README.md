@@ -17,7 +17,7 @@
 https://cmartinez84.github.io/simon
 
 ## Known Bugs
-_The game currently loads sound through audio tags on the HTML, which can only be played one at a time and uses JS to halt the currently playing sound if it is played twice in a row before finishing. Because of this, every now and then a player may hit a button twice but may not actually see two beeps in a row.  A future release will load the audio through JS.
+_The game currently loads sound through audio tags on the HTML, which can only be played one at a time and uses JS to halt the currently playing sound if it is played twice in a row before finishing. Chrome seems to be better at loading the sounds than safari.  A future release will load the audio through JS.
 
 ## Support and contact details
 
