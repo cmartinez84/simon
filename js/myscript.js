@@ -18,6 +18,7 @@ var HighScore = function(playerName, highScore){
 
 $(function(){
     var scoresRef = firebase.database().ref('scores');
+    $("#gameover").hide();
     var redrawHighScores = function(){
         scoresRef.orderByChild('highScore').limitToLast(5).on('value', function(snap){
             $("#highScores").empty();
@@ -95,6 +96,7 @@ $(function(){
         sequence = newGame.sequence.join("");
         // $("#sequence").text(sequence);
         playSequence(newGame.sequence);
+        $("#gameover").hide();
 
     }
 //start game
@@ -112,6 +114,7 @@ $(function(){
     var gameOver = function(){
         newGame.gameOver = true;
         $('.tile').off();
+        $("#gameover").show();
         var sound = document.getElementById("gameOver");
         sound.play();
         var score = newGame.sequence.length - 1;

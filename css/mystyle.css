@@ -1,5 +1,5 @@
 body{
-  background: url("http://hdwallpaperbackgrounds.net/wp-content/uploads/2016/08/Black-Background.jpg") center center no-repeat;
+  background: url('../img/wallpaper.jpg') center center no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
@@ -73,4 +73,9 @@ body{
     color: white;
     border: 1px solid white;
     border-radius: 4px;
+}
+#gameover{
+  position: fixed;
+  right: 40%;
+  top: 40%;
 }
