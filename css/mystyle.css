@@ -45,7 +45,7 @@ body{
 }
 
 .field{
-    margin-left: 400px;
+    /*margin-left: 400px;*/
     background: black;
     width: 500px;
     padding: 40px !important;
@@ -69,10 +69,13 @@ body{
 #scoreBox{
     color: white;
 }
-#options{
+#options, #scoreBox, #instructions{
     color: white;
     border: 1px solid white;
     border-radius: 4px;
+}
+#scoreBox ol, #instructions ol{
+  text-align: left;
 }
 #gameover{
   position: fixed;

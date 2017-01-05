@@ -17,41 +17,62 @@
     <audio id="gameOver" src="sounds/Shut_Down1.wav" autostart="true" ></audio>
     <audio id="countdownAlert" src="sounds/count_down_alert.wav" autostart="false" ></audio>
 
-
   <body>
+    <div class="container">
       <h1 class="simon">Simon</h1>
+
+      <div class="col-sm-4">
+        <div id="scoreBox" class="row">
+            <h1>High Scores</h1>
+            <ol id="highScores">
+            </ol>
+        </div>
+        <div id="instructions" class="row">
+          <h1>Instrcutions</h1>
+          <ol>
+              <li>Press Play</li>
+              <li>A pattern will play</li>
+              <li>Repeat the pattern with mouse or keyboard</li>
+              <li>Each tile contains a number. You may play with those numbers or (going clockwise starting a the upper left tile) D K M C, or click on the tiles with the mouse</li>
+          </ol>
+        </div>
+        <div id="options" class="row">
+              <h1>Options</h1>
+              <label><input id="enableCountdown" type="checkbox" name="vehicle" value="">Play with timer (score will not be saved)</label><br>
+              <label><input id="enableCountdownAlert" type="checkbox" name="vehicle" value=""> Cound down alert (5 seconds)</label><br>
+              <button class="btn btn-success" id="play" type="button" name="button">PLAY</button>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="field">
+            <div class="row">
+                <button id="1"class="tile tile1" type="button" name="button">1</button>
+                <button id="2" class="tile tile2" type="button" name="button">2</button>
+            </div>
+            <div class="row">
+                <button id="3" class="tile tile3" type="button" name="button">3</button>
+                <button id="4" class="tile tile4" type="button" name="button">4</button>
+            </div>
+        </div>
+      </div>
+
+
+
+    </div>
       <!-- testing -->
-      <div class="info">
+      <!-- <div class="info">
           <div id="sequence">
               <h1>Sequence</h1>
           </div>
           <div id="playerInput">
               <h1>PlayerInput</h1>
           </div>
-      </div>
-      <div id="scoreBox">
-          <h1>high Scores</h1>
-          <ol id="highScores">
-          </ol>
-      </div>
-      <div id="options">
-            <h1>Options</h1>
-            <label><input id="enableCountdown" type="checkbox" name="vehicle" value="">Play with timer (score will not be saved)</label><br>
-            <label><input id="enableCountdownAlert" type="checkbox" name="vehicle" value=""> Cound down alert (5 seconds)</label><br>
-            <button class="btn btn-success" id="play" type="button" name="button">PLAY</button>
+      </div> -->
 
-      </div>
 
-      <div class="field">
-          <div class="row">
-              <button id="1"class="tile tile1" type="button" name="button">1</button>
-              <button id="2" class="tile tile2" type="button" name="button">2</button>
-          </div>
-          <div class="row">
-              <button id="3" class="tile tile3" type="button" name="button">3</button>
-              <button id="4" class="tile tile4" type="button" name="button">4</button>
-          </div>
-      </div>
+
+
+
       <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
       <script>
         // Initialize Firebase
